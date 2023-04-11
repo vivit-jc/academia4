@@ -40,3 +40,11 @@ const commands: Command[] = [
 ];
 
 </script>
+
+<style scoped>
+.command{
+  width: 100%;
+  margin: 2px;
+  background-color: aquamarine;
+}
+</style>
