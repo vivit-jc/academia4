@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', {
+export const useDateStore = defineStore('date', {
   state: () => ({
-    counter: 0,
+    month: 1,
+    day: 0,
   }),
   getters: {
     doubleCount: (state) => state.counter * 2,

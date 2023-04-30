@@ -10,7 +10,15 @@
     </q-header>
     <q-page-container>
       <div class="row">
+        <q-page class="col-10">
+          <router-view />
+        </q-page>
         <q-page class="col-2">
+          <q-card class="my-card">
+            <q-card-section>
+              lorem
+            </q-card-section>
+          </q-card>
           <q-list>
             <q-item
               clickable v-ripple
@@ -22,15 +30,15 @@
             </q-item>
           </q-list>
         </q-page>
-        <q-page class="col-10">
-          <router-view />
-        </q-page>
       </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup lang="ts">
+import { useDateStore } from './store/date';
+
+const store = useTodoStore();
 
 const commands: Command[] = [
   {text: 'コマンド1', link: 'com1'},
