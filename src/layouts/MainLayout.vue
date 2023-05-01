@@ -16,7 +16,8 @@
         <q-page class="col-2">
           <q-card class="my-card">
             <q-card-section>
-              lorem
+              {{ date.month_j() }}の月
+              {{ date.day }}日
             </q-card-section>
           </q-card>
           <q-list>
@@ -36,9 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { useDateStore } from './store/date';
+import { useDateStore } from '../stores/date';
 
-const store = useTodoStore();
+const date = useDateStore();
 
 const commands: Command[] = [
   {text: 'コマンド1', link: 'com1'},

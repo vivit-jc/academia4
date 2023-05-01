@@ -1,4 +1,4 @@
-type Command{
+type Command = {
     text:string,
     link:string
 }

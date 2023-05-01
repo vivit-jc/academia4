@@ -2,15 +2,16 @@ import { defineStore } from 'pinia';
 
 export const useDateStore = defineStore('date', {
   state: () => ({
-    month: 1,
-    day: 0,
+    month: 0,
+    day: 1,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    //doubleCount: (state) => state.counter * 2,
   },
   actions: {
-    increment() {
-      this.counter++;
+    month_j() {
+      const mj = ['花','鳥','風','月']
+      return mj[this.month]
     },
   },
 });
