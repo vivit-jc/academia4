@@ -6,14 +6,19 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router'
 import scenario from '../scenario/s1.json'
 import { useDateStore } from '../stores/date';
+import { useMapStore } from '../stores/map';
+
 
 let textOneByOne = ref('')
 const delayTime = 100; //何秒遅れで次の文字が表示されるか設定
 const date = useDateStore();
-let sdata = scenario.data.find(e=>e.month==date.month&&e.day==date.day&&e.start)
-let textarray = sdata?.text.split('@')
+let map = useMapStore();
+const router = useRouter();
+let sdata = scenario.data.find(e=>e.month==date.month&&e.day==date.day)
+let textarray = sdata?.scenes[0]
 let text: string|undefined
 let clicklock = false
 if(textarray&&textarray.length>0){
@@ -36,6 +41,7 @@ function click(){
 }
 
 function setTextBox(text:string){
+  if(parseCommand(text)){return false}
   text.split('').forEach((elem, index) => {
     setTimeout( () => {
       textOneByOne.value += elem
@@ -45,6 +51,16 @@ function setTextBox(text:string){
   setTimeout( () => {
     clicklock = false
   }, text.length*delayTime );
+}
+
+function parseCommand(text:string){
+  if(new RegExp(/^map/).test(text)){
+    map.data = JSON.parse(text.replace('map',''))
+    router.push('./map')
+    console.log(map.data)
+    return true
+  }
+  return false
 }
 
 </script>

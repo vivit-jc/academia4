@@ -8,8 +8,4 @@
 <script setup lang="ts">
 import TextBox from 'src/components/TextBox.vue';
 import MainView from 'src/components/MainView.vue';
-
-import { ref } from 'vue';
-
-
 </script>
