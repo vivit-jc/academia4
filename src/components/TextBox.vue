@@ -10,12 +10,14 @@ import { useRouter } from 'vue-router'
 import scenario from '../scenario/s1.json'
 import { useDateStore } from '../stores/date';
 import { useMapStore } from '../stores/map';
+import { useBranchStore} from '../stores/branch';
 
 
 let textOneByOne = ref('')
 const delayTime = 100; //何秒遅れで次の文字が表示されるか設定
 const date = useDateStore();
 let map = useMapStore();
+let branch = useBranchStore();
 const router = useRouter();
 let sdata = scenario.data.find(e=>e.month==date.month&&e.day==date.day)
 let textarray = sdata?.scenes[0]
@@ -34,8 +36,9 @@ function click(){
   if(textarray && !clicklock){
     text = textarray.shift()
     if(text){
-      textOneByOne.value=''
-      setTextBox(text);
+      if(setTextBox(text)){
+        textOneByOne.value=''
+      }
     }
   }
 }
@@ -58,6 +61,10 @@ function parseCommand(text:string){
     map.data = JSON.parse(text.replace('map',''))
     router.push('./map')
     console.log(map.data)
+    return true
+  } else if(new RegExp(/^branch/).test(text)) {
+    branch.data = JSON.parse(text.replace('branch',''))
+    console.log(branch.data)
     return true
   }
   return false
