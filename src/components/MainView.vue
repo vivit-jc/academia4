@@ -3,18 +3,25 @@
         abc
     </div>
     <div class="branches">
-      <q-card v-for="data in branchData" :key="data.value.text">
-        <div class="data">{{ data }}</div>
+      <q-card v-for="branch in branchData" :key="branch.text">
+        <div class="data">{{ branch.text }}</div>
       </q-card>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref,watch } from 'vue'
 import { useBranchStore } from '../stores/branch';
 
 const branch = useBranchStore();
-const branchData = ref(branch.data)
+const branchData = ref([] as Branch[])
+
+watch(
+  () => branch.data,
+  (newValue) => {
+    branchData.value = newValue
+  },
+)
 
 </script>
 
