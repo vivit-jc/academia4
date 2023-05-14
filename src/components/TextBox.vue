@@ -7,10 +7,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
-import scenario from '../scenario/s1.json'
 import { useDateStore } from '../stores/date';
 import { useMapStore } from '../stores/map';
 import { useBranchStore} from '../stores/branch';
+import { useScenarioStore } from 'src/stores/scenario';
 
 
 let textOneByOne = ref('')
@@ -19,7 +19,7 @@ const date = useDateStore();
 let map = useMapStore();
 let branch = useBranchStore();
 const router = useRouter();
-let sdata = scenario.data.find(e=>e.month==date.month&&e.day==date.day)
+let sdata = useScenarioStore()
 let textarray = sdata?.scenes[0]
 let text: string|undefined
 let clicklock = false

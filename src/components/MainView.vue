@@ -4,7 +4,7 @@
     </div>
     <div class="branches">
       <q-card v-for="branch in branchData" :key="branch.text">
-        <div class="data">{{ branch.text }}</div>
+        <div class="branch" @click="clickBranch(branch)">{{ branch.text }}</div>
       </q-card>
     </div>
 </template>
@@ -22,6 +22,11 @@ watch(
     branchData.value = newValue
   },
 )
+
+function clickBranch(branch: Branch){
+
+  console.log(branch.link)
+}
 
 </script>
 
