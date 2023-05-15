@@ -12,9 +12,12 @@
 <script setup lang="ts">
 import { ref,watch } from 'vue'
 import { useBranchStore } from '../stores/branch';
+import { useScenarioStore } from 'src/stores/scenario';
+
 
 const branch = useBranchStore();
 const branchData = ref([] as Branch[])
+const sdata = useScenarioStore()
 
 watch(
   () => branch.data,
@@ -24,8 +27,7 @@ watch(
 )
 
 function clickBranch(branch: Branch){
-
-  console.log(branch.link)
+  sdata.no = Number(branch.link)
 }
 
 </script>

@@ -8,3 +8,9 @@ type Branch = {
     effect: string,
     link: string
 }
+
+type Sdata = {
+    month: number,
+    day: number,
+    scenes: string[][]
+}

@@ -5,42 +5,54 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router'
-import { useDateStore } from '../stores/date';
 import { useMapStore } from '../stores/map';
 import { useBranchStore} from '../stores/branch';
 import { useScenarioStore } from 'src/stores/scenario';
 
-
 let textOneByOne = ref('')
 const delayTime = 100; //何秒遅れで次の文字が表示されるか設定
-const date = useDateStore();
 let map = useMapStore();
 let branch = useBranchStore();
 const router = useRouter();
 let sdata = useScenarioStore()
-let textarray = sdata?.scenes[0]
+let textarray = sdata?.data.scenes[0]
 let text: string|undefined
 let clicklock = false
-if(textarray&&textarray.length>0){
-  text = textarray.shift()
-}
 
 onMounted(()=>{
+  console.log('mounted box',textarray,sdata.data)
+  if(textarray&&textarray.length>0){
+    text = textarray.shift()
+  }
   if(!text){return false}
   setTextBox(text);
 })
 
-function click(){
-  if(textarray && !clicklock){
-    text = textarray.shift()
-    if(text){
-      if(setTextBox(text)){
-        textOneByOne.value=''
-      }
+watch(
+  () => sdata.no,
+  (newValue) => {
+    textarray = sdata.data.scenes[newValue]
+    if(textarray&&textarray.length>0){
+      text = textarray.shift()
     }
+    if(!text){return false}
+    textOneByOne.value=''
+    setTextBox(text);
+  },
+)
+
+function click(){
+  if(textarray.length==0 || clicklock){
+    return false
   }
+  text = textarray.shift()
+  if(text){
+    if(setTextBox(text)){
+      textOneByOne.value=''
+    }
+  }  
 }
 
 function setTextBox(text:string){
@@ -54,6 +66,7 @@ function setTextBox(text:string){
   setTimeout( () => {
     clicklock = false
   }, text.length*delayTime );
+  return true
 }
 
 function parseCommand(text:string){
@@ -65,6 +78,9 @@ function parseCommand(text:string){
   } else if(new RegExp(/^branch/).test(text)) {
     branch.data = JSON.parse(text.replace('branch',''))
     console.log(branch.data)
+    return true
+  } else if(new RegExp(/^link/).test(text)) {
+    sdata.no = Number(text.replace('link(','').replace(')',''))
     return true
   }
   return false
