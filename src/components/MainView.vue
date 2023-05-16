@@ -2,11 +2,11 @@
     <div class="main-view">
         abc
     </div>
-    <div class="branches">
-      <q-card v-for="branch in branchData" :key="branch.text">
+    <q-list class="branches">
+      <q-item v-for="branch in branchData" :key="branch.text" clickable v-ripple>
         <div class="branch" @click="clickBranch(branch)">{{ branch.text }}</div>
-      </q-card>
-    </div>
+      </q-item>
+    </q-list>
 </template>
 
 <script setup lang="ts">
@@ -15,7 +15,7 @@ import { useBranchStore } from '../stores/branch';
 import { useScenarioStore } from 'src/stores/scenario';
 
 
-const branch = useBranchStore();
+let branch = useBranchStore();
 const branchData = ref([] as Branch[])
 const sdata = useScenarioStore()
 
@@ -26,8 +26,9 @@ watch(
   },
 )
 
-function clickBranch(branch: Branch){
-  sdata.no = Number(branch.link)
+function clickBranch(selectedBranch: Branch){
+  sdata.no = Number(selectedBranch.link)
+  branch.data = []
 }
 
 </script>
